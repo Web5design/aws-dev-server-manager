@@ -17,3 +17,7 @@ aws-dev-server-manager-cli --action=stop --instances="i-272586d,i-234586d,i-6435
 ```
 
 Useful to run as a Scheduled build on your Build Server to shut down AWS dev instances at the end of the work day.
+
+### Config
+
+Add your `AWS_ACCESS_KEY`, `AWS_SECRET_KEY` and `AWS_REGION` to the `App.Config`

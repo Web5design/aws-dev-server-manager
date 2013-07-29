@@ -117,6 +117,8 @@ namespace AwsServerManager.Gui
 
 				if (IsActionColumn(columnIndex))
 				{
+					Cursor = Cursors.WaitCursor;
+
 					var instance = (RunningInstance)hitTest.Item.Tag;
 					if (IsRunning(instance))
 						Stop(instance);
@@ -129,6 +131,10 @@ namespace AwsServerManager.Gui
 			catch (Exception exc)
 			{
 				Report(exc);
+			}
+			finally
+			{
+				Cursor = Cursors.Arrow;
 			}
 		}
 

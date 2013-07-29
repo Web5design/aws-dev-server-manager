@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A37916
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwsServerManager.Console", "AwsServerManager.Console\AwsServerManager.Console.csproj", "{3C7ECA42-6402-4E51-8BA2-12C3A7B0C4E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{4835D22D-9E68-41FB-B4B8-D44397851237}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +24,14 @@ Global
 		{042D333B-FEC7-465E-B33D-B053629AC887}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{042D333B-FEC7-465E-B33D-B053629AC887}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{042D333B-FEC7-465E-B33D-B053629AC887}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C7ECA42-6402-4E51-8BA2-12C3A7B0C4E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C7ECA42-6402-4E51-8BA2-12C3A7B0C4E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C7ECA42-6402-4E51-8BA2-12C3A7B0C4E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C7ECA42-6402-4E51-8BA2-12C3A7B0C4E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4835D22D-9E68-41FB-B4B8-D44397851237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4835D22D-9E68-41FB-B4B8-D44397851237}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4835D22D-9E68-41FB-B4B8-D44397851237}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4835D22D-9E68-41FB-B4B8-D44397851237}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

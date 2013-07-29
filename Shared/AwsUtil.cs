@@ -21,5 +21,17 @@ namespace AwsServerManager.Shared
 			else
 				return new AmazonEC2Client();
 		}
+
+		public static RegionEndpoint Region
+		{
+			get
+			{
+				var name = ConfigurationManager.AppSettings["AmazonRegion"];
+				if (string.IsNullOrEmpty(name))
+					return RegionEndpoint.USEast1;
+
+				return RegionEndpoint.GetBySystemName(name);
+			}
+		}
 	}
 }

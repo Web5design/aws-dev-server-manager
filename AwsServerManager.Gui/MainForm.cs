@@ -31,7 +31,7 @@ namespace AwsServerManager.Gui
 				{
 					RegionSelector.Items.Add(item);
 				}
-				RegionSelector.SelectedItem = RegionEndpoint.EUWest1;
+				RegionSelector.SelectedItem = AwsUtil.Region;
 
 				_initDone = true;
 			}

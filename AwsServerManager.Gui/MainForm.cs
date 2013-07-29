@@ -9,6 +9,8 @@ using Amazon;
 using Amazon.EC2;
 using Amazon.EC2.Model;
 
+using AwsServerManager.Shared;
+
 namespace AwsServerManager.Gui
 {
 	public partial class MainForm : Form
@@ -103,12 +105,7 @@ namespace AwsServerManager.Gui
 
 		AmazonEC2Client CreateClient()
 		{
-			var key = ConfigurationManager.AppSettings["AmazonKey"];
-			var secretkey = ConfigurationManager.AppSettings["AmazonSecretKey"];
-			if (!string.IsNullOrEmpty(key))
-				return new AmazonEC2Client(key, secretkey, AwsRegion);
-			else
-				return new AmazonEC2Client();
+			return AwsUtil.CreateClient(AwsRegion);
 		}
 
 		private void InstancesListView_MouseClick(object sender, MouseEventArgs e)

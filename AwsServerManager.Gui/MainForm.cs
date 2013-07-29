@@ -33,7 +33,6 @@ namespace AwsServerManager.Gui
 				}
 				RegionSelector.SelectedItem = RegionEndpoint.EUWest1;
 
-				RefreshList();
 				_initDone = true;
 			}
 		}

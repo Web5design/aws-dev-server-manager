@@ -119,13 +119,13 @@ namespace AwsServerManager.Gui
 				{
 					Cursor = Cursors.WaitCursor;
 
+					var item = hitTest.Item;
 					var instance = (RunningInstance)hitTest.Item.Tag;
-					if (IsRunning(instance))
-						Stop(instance);
-					else
-						Start(instance);
 
-					Refresh();
+					item.SubItems[StateColumnIndex].Text = 
+						IsRunning(instance)
+						? Stop(instance).Name
+						: Start(instance).Name;
 				}
 			}
 			catch (Exception exc)
@@ -138,23 +138,25 @@ namespace AwsServerManager.Gui
 			}
 		}
 
-		void Start(RunningInstance instance)
+		InstanceState Start(RunningInstance instance)
 		{
 			using (var client = CreateClient())
 			{
 				var request = new StartInstancesRequest();
 				request.InstanceId.Add(instance.InstanceId);
-				client.StartInstances(request);
+				var response = client.StartInstances(request);
+				return response.StartInstancesResult.StartingInstances[0].CurrentState;
 			}
 		}
 
-		void Stop(RunningInstance instance)
+		InstanceState Stop(RunningInstance instance)
 		{
 			using (var client = CreateClient())
 			{
 				var request = new StopInstancesRequest();
 				request.InstanceId.Add(instance.InstanceId);
-				client.StopInstances(request);
+				var response = client.StopInstances(request);
+				return response.StopInstancesResult.StoppingInstances[0].CurrentState;
 			}
 		}
 
@@ -170,7 +172,7 @@ namespace AwsServerManager.Gui
 
 		static bool IsActionColumn(int index)
 		{
-			return (index == 3);
+			return (index == ActionColumnIndex);
 		}
 
 		private void InstancesListView_MouseMove(object sender, MouseEventArgs e)
@@ -198,5 +200,8 @@ namespace AwsServerManager.Gui
 				Report(exc);
 			}
 		}
+
+		private const int StateColumnIndex = 2;
+		private const int ActionColumnIndex = 3;
 	}
 }

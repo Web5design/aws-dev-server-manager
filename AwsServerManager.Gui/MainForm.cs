@@ -115,7 +115,7 @@ namespace AwsServerManager.Gui
 				var hitTest = InstancesListView.HitTest(mousePos);
 				var columnIndex = hitTest.Item.SubItems.IndexOf(hitTest.SubItem);
 
-				if (columnIndex == 3)
+				if (IsActionColumn(columnIndex))
 				{
 					var instance = (RunningInstance)hitTest.Item.Tag;
 					if (IsRunning(instance))
@@ -160,6 +160,37 @@ namespace AwsServerManager.Gui
 		private RegionEndpoint AwsRegion
 		{
 			get { return (RegionEndpoint)RegionSelector.SelectedItem; }
+		}
+
+		static bool IsActionColumn(int index)
+		{
+			return (index == 3);
+		}
+
+		private void InstancesListView_MouseMove(object sender, MouseEventArgs e)
+		{
+			try
+			{
+				var mousePos = InstancesListView.PointToClient(MousePosition);
+				var hitTest = InstancesListView.HitTest(mousePos);
+
+				if (hitTest.Item != null)
+				{
+					var columnIndex = hitTest.Item.SubItems.IndexOf(hitTest.SubItem);
+					if (IsActionColumn(columnIndex))
+					{
+						Cursor = Cursors.Hand;
+						return;
+					}
+				}
+
+				if (Cursor == Cursors.Hand)
+					Cursor = Cursors.Arrow;
+			}
+			catch (Exception exc)
+			{
+				Report(exc);
+			}
 		}
 	}
 }

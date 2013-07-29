@@ -66,6 +66,7 @@
 			this.InstancesListView.UseCompatibleStateImageBehavior = false;
 			this.InstancesListView.View = System.Windows.Forms.View.Details;
 			this.InstancesListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.InstancesListView_MouseClick);
+			this.InstancesListView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.InstancesListView_MouseMove);
 			// 
 			// InstanceIdColumn
 			// 

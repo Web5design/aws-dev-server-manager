@@ -119,11 +119,19 @@ namespace AwsServerManager.Gui
 				{
 					Cursor = Cursors.WaitCursor;
 
+					var item = hitTest.Item;
 					var instance = (RunningInstance)hitTest.Item.Tag;
+
 					if (IsRunning(instance))
+					{
 						Stop(instance);
+						item.SubItems[StateColumnIndex].Text = "stopping";
+					}
 					else
+					{
 						Start(instance);
+						item.SubItems[StateColumnIndex].Text = "pending";
+					}
 
 					Refresh();
 				}
@@ -170,7 +178,7 @@ namespace AwsServerManager.Gui
 
 		static bool IsActionColumn(int index)
 		{
-			return (index == 3);
+			return (index == ActionColumnIndex);
 		}
 
 		private void InstancesListView_MouseMove(object sender, MouseEventArgs e)
@@ -198,5 +206,8 @@ namespace AwsServerManager.Gui
 				Report(exc);
 			}
 		}
+
+		private const int StateColumnIndex = 2;
+		private const int ActionColumnIndex = 3;
 	}
 }

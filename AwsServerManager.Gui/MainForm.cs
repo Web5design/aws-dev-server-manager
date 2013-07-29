@@ -58,7 +58,8 @@ namespace AwsServerManager.Gui
 
 				using (var client = CreateClient())
 				{
-					var request = new DescribeInstancesRequest();
+					var request = new DescribeInstancesRequest().WithFilter(
+						new Filter().WithName("root-device-type").WithValue("ebs"));
 					var reservations = client.DescribeInstances(request).DescribeInstancesResult.Reservation;
 					foreach (var reservation in reservations)
 					{

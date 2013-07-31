@@ -208,17 +208,21 @@ namespace AwsServerManager.Gui
 					new Filter().WithName("root-device-type").WithValue("ebs")
 				};
 
-			var text = ConfigurationManager.AppSettings["InstanceFilter"];
-			var items = text.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+			var filterText = ConfigurationManager.AppSettings["InstanceFilter"];
+			var filterItems = filterText.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-			foreach (var item in items)
+			var tagsText = ConfigurationManager.AppSettings["InstanceTags"];
+			var tagItems = tagsText.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+			filterItems.AddRange(tagItems.Select(item => "tag:" + item));
+
+			foreach (var item in filterItems)
 			{
 				var parts = item.Split('=');
 				if (parts.Length != 2)
 					throw new ApplicationException(string.Format("Invalid filter parameter: '{0}'", item));
 
-				var tagName = "tag:" + parts[0];
-				var filter = new Filter().WithName(tagName).WithValue(parts[1]);
+				var filter = new Filter().WithName(parts[0]).WithValue(parts[1]);
 				res.Add(filter);
 			}
 

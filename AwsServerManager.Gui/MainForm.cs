@@ -208,7 +208,7 @@ namespace AwsServerManager.Gui
 					new Filter().WithName("root-device-type").WithValue("ebs")
 				};
 
-			var filterText = ConfigurationManager.AppSettings["InstanceFilter"];
+			var filterText = ConfigurationManager.AppSettings["InstanceFilters"];
 			var filterItems = filterText.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
 			var tagsText = ConfigurationManager.AppSettings["InstanceTags"];

@@ -58,8 +58,7 @@ namespace AwsServerManager.Gui
 
 				using (var client = CreateClient())
 				{
-					var request = new DescribeInstancesRequest().WithFilter(
-						new Filter().WithName("root-device-type").WithValue("ebs"));
+					var request = new DescribeInstancesRequest().WithFilter(GetFilters());
 					var reservations = client.DescribeInstances(request).DescribeInstancesResult.Reservation;
 					foreach (var reservation in reservations)
 					{
@@ -123,7 +122,7 @@ namespace AwsServerManager.Gui
 					var item = hitTest.Item;
 					var instance = (RunningInstance)hitTest.Item.Tag;
 
-					item.SubItems[StateColumnIndex].Text = 
+					item.SubItems[StateColumnIndex].Text =
 						IsRunning(instance)
 						? Stop(instance).Name
 						: Start(instance).Name;
@@ -200,6 +199,30 @@ namespace AwsServerManager.Gui
 			{
 				Report(exc);
 			}
+		}
+
+		static Filter[] GetFilters()
+		{
+			var res = new List<Filter>
+				{
+					new Filter().WithName("root-device-type").WithValue("ebs")
+				};
+
+			var text = ConfigurationManager.AppSettings["InstanceFilter"];
+			var items = text.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+			foreach (var item in items)
+			{
+				var parts = item.Split('=');
+				if (parts.Length != 2)
+					throw new ApplicationException(string.Format("Invalid filter parameter: '{0}'", item));
+
+				var tagName = "tag:" + parts[0];
+				var filter = new Filter().WithName(tagName).WithValue(parts[1]);
+				res.Add(filter);
+			}
+
+			return res.ToArray();
 		}
 
 		private const int StateColumnIndex = 2;

@@ -28,6 +28,23 @@ Add your `AWSAccessKey`, `AWSSecretKey` and `AWSRegion` to the `App.config`, see
 [IAM Role for Amazon EC2](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html), 
 you can also omit these explicit credentials (just set `value` to an empty string), which would be automatically picked up from that IAM role then.
 
+### EC2 instance pool selection
+
+By default, the utility makes all EBS backed EC2 instances in the configured account available for starting/stopping.
+
+You can also restrict the available instances via [Filters](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Filtering.html#Resource_Filters), 
+most commonly used by [Tagging Your Amazon EC2 Resources](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) - see 
+[Filtering the List of Resources by Tags](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#filtering-the-list-of-resources-by-tags-cli) 
+for examples and [Using Filtering](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Filtering.html) for more details on the concept as such.
+
+There are two available parameters in `App.config` for this purpose, which are both evaluated together at runtime and support the wildcard character `*`:
+
+* `InstanceTags` - one or more semicolon separated key/value pairs of tags, e.g. `Name=WebServer-*` or  `Name=WebServer-*;Owner=TeamA`
+* `InstanceFilters` - one or more semicolon separated key/value pairs of filters, e.g. `instance-type=m1.xlarge` or  `instance-type=m1.*;image-id=ami-1a2b3c4d`, see
+section _Supported Filters_ within [DescribeInstances](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeInstances.html) for details.
+ * **Note**: This allows to lock down the list of instances to specific ones, e.g. `instance-id=i-1a2b3c4d;instance-id=i-5a6b7c8d`
+ * **Note**: You can also just use `InstanceFilters` for tags as well by means of the `tag:` prefix, e.g. `instance-type=m1.xlarge;tag:Owner=TeamA`.
+
 ### IAM permissions
 
 Here are a few example policies for the required [Identity and Access management (IAM)](http://aws.amazon.com/iam/) 

@@ -21,11 +21,12 @@ Useful to run as a Scheduled build on your Build Server to shut down AWS dev ins
 
 ### AWS credentials/region
 
-Add your `AWS_ACCESS_KEY`, `AWS_SECRET_KEY` and `AWS_REGION` to the `App.Config`
+Add your `AWSAccessKey`, `AWSSecretKey` and `AWSRegion` to the `App.config`, see 
+[Configuring Credentials for Your Application](http://docs.aws.amazon.com/AWSSdkDocsNET/latest/DeveloperGuide/net-dg-config-creds.html) for details.
 
 * If you happen to run this utility from an Amazon EC2 instance started with an 
 [IAM Role for Amazon EC2](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html), 
-you can also omit these explicit credentials, which would be automatically picked up from that IAM role then.
+you can also omit these explicit credentials (just set `value` to an empty string), which would be automatically picked up from that IAM role then.
 
 ### IAM permissions
 

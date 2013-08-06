@@ -14,8 +14,8 @@ namespace AwsServerManager.Shared
 	{
 		public static AmazonEC2Client CreateClient(RegionEndpoint region)
 		{
-			var key = ConfigurationManager.AppSettings["AmazonKey"];
-			var secretkey = ConfigurationManager.AppSettings["AmazonSecretKey"];
+			var key = ConfigurationManager.AppSettings["AWSAccessKey"];
+			var secretkey = ConfigurationManager.AppSettings["AWSSecretKey"];
 			if (!string.IsNullOrEmpty(key))
 				return new AmazonEC2Client(key, secretkey, region);
 			else
@@ -26,7 +26,7 @@ namespace AwsServerManager.Shared
 		{
 			get
 			{
-				var name = ConfigurationManager.AppSettings["AmazonRegion"];
+				var name = ConfigurationManager.AppSettings["AWSRegion"];
 				if (string.IsNullOrEmpty(name))
 					return RegionEndpoint.USEast1;
 

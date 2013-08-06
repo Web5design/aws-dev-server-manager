@@ -58,7 +58,7 @@ namespace AwsServerManager.Gui
 
 				using (var client = CreateClient())
 				{
-					var request = new DescribeInstancesRequest();
+					var request = new DescribeInstancesRequest().WithFilter(GetFilters());
 					var reservations = client.DescribeInstances(request).DescribeInstancesResult.Reservation;
 					foreach (var reservation in reservations)
 					{
@@ -122,18 +122,10 @@ namespace AwsServerManager.Gui
 					var item = hitTest.Item;
 					var instance = (RunningInstance)hitTest.Item.Tag;
 
-					if (IsRunning(instance))
-					{
-						Stop(instance);
-						item.SubItems[StateColumnIndex].Text = "stopping";
-					}
-					else
-					{
-						Start(instance);
-						item.SubItems[StateColumnIndex].Text = "pending";
-					}
-
-					Refresh();
+					item.SubItems[StateColumnIndex].Text =
+						IsRunning(instance)
+						? Stop(instance).Name
+						: Start(instance).Name;
 				}
 			}
 			catch (Exception exc)
@@ -146,23 +138,25 @@ namespace AwsServerManager.Gui
 			}
 		}
 
-		void Start(RunningInstance instance)
+		InstanceState Start(RunningInstance instance)
 		{
 			using (var client = CreateClient())
 			{
 				var request = new StartInstancesRequest();
 				request.InstanceId.Add(instance.InstanceId);
-				client.StartInstances(request);
+				var response = client.StartInstances(request);
+				return response.StartInstancesResult.StartingInstances[0].CurrentState;
 			}
 		}
 
-		void Stop(RunningInstance instance)
+		InstanceState Stop(RunningInstance instance)
 		{
 			using (var client = CreateClient())
 			{
 				var request = new StopInstancesRequest();
 				request.InstanceId.Add(instance.InstanceId);
-				client.StopInstances(request);
+				var response = client.StopInstances(request);
+				return response.StopInstancesResult.StoppingInstances[0].CurrentState;
 			}
 		}
 
@@ -205,6 +199,34 @@ namespace AwsServerManager.Gui
 			{
 				Report(exc);
 			}
+		}
+
+		static Filter[] GetFilters()
+		{
+			var res = new List<Filter>
+				{
+					new Filter().WithName("root-device-type").WithValue("ebs")
+				};
+
+			var filterText = ConfigurationManager.AppSettings["InstanceFilters"];
+			var filterItems = filterText.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+			var tagsText = ConfigurationManager.AppSettings["InstanceTags"];
+			var tagItems = tagsText.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+			filterItems.AddRange(tagItems.Select(item => "tag:" + item));
+
+			foreach (var item in filterItems)
+			{
+				var parts = item.Split('=');
+				if (parts.Length != 2)
+					throw new ApplicationException(string.Format("Invalid filter parameter: '{0}'", item));
+
+				var filter = new Filter().WithName(parts[0]).WithValue(parts[1]);
+				res.Add(filter);
+			}
+
+			return res.ToArray();
 		}
 
 		private const int StateColumnIndex = 2;

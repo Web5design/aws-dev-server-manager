@@ -5,7 +5,7 @@ Simple utility for starting and stopping AWS servers
 ## GUI
 
 Shows a list of AWS servers, their running status and a button to Start or Stop them
-![GUI screenshot](https://f.cloud.github.com/assets/227505/833497/156ade36-f2a3-11e2-90f4-8f7fba1e09e3.png)
+![GUI screenshot](https://f.cloud.github.com/assets/227505/930861/64125ca2-0019-11e3-95c6-b337d1a95f98.PNG)
 
 ## CLI
 
@@ -49,7 +49,7 @@ section _Supported Filters_ within [DescribeInstances](http://docs.aws.amazon.co
 
 Here are a few example policies for the required [Identity and Access management (IAM)](http://aws.amazon.com/iam/) 
 permissions to operate the EC2 instances - for more details on the more advanced policies you may want to read
-[Resource-level Permissions for EC2 – Controlling Management Access on Specific Instances](http://blogs.aws.amazon.com/security/post/Tx29HCT3ABL7LP3/Resource-level-Permissions-for-EC2-Controlling-Management-Access-on-Specific-Ins).
+[Resource-level Permissions for EC2 ï¿½ Controlling Management Access on Specific Instances](http://blogs.aws.amazon.com/security/post/Tx29HCT3ABL7LP3/Resource-level-Permissions-for-EC2-Controlling-Management-Access-on-Specific-Ins).
 
 #### All instances in all regions
 

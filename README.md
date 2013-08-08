@@ -5,7 +5,7 @@ Simple utility for starting and stopping AWS servers
 ## GUI
 
 Shows a list of AWS servers, their running status and a button to Start or Stop them
-![GUI screenshot](https://f.cloud.github.com/assets/227505/930861/64125ca2-0019-11e3-95c6-b337d1a95f98.PNG)
+![GUI screenshot](https://f.cloud.github.com/assets/227505/930870/b0891972-0019-11e3-89c5-1926b4370828.PNG)
 
 ## CLI
 
